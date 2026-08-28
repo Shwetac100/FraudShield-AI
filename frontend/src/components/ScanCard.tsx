@@ -11,7 +11,7 @@ interface ScanCardProps {
 
 export function ScanCard({ item }: ScanCardProps) {
   const isPackaged = item.type === 'PACKAGED';
-  const targetUrl = isPackaged ? `/report/packaged/${item.id}` : `/report/adulteration/${item.id}`;
+  const targetUrl = `/report/packaged/${item.id}`;
 
   return (
     <div className="group rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition-all hover:border-emerald-300 hover:shadow-md">

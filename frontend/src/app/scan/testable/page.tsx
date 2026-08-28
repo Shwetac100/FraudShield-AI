@@ -9,32 +9,38 @@ import { FlaskConical, ArrowRight, ShieldAlert, Check } from 'lucide-react';
 
 export default function TestableScanPage() {
   const router = useRouter();
-  const [selectedFood, setSelectedFood] = useState<string>('ghee');
+  const [selectedFood, setSelectedFood] = useState<string>('Milk');
   const [foodImage, setFoodImage] = useState<File | null>(null);
 
   const testableItems = [
     {
-      id: 'ghee',
-      name: 'Desi Ghee / Butter',
-      adulterants: ['Vanaspati', 'Starch', 'Animal Fats'],
-      icon: '🧈',
+      id: 'Milk',
+      name: 'Fresh Milk / Dairy',
+      adulterants: ['Water', 'Detergent', 'Urea', 'Starch'],
+      icon: '🥛',
     },
     {
-      id: 'honey',
+      id: 'Honey',
       name: 'Pure Honey',
-      adulterants: ['Sugar Syrup', 'Chalk Powder', 'Water Dilution'],
+      adulterants: ['Sugar Syrup', 'High Fructose Syrup', 'Water'],
       icon: '🍯',
     },
     {
-      id: 'milk',
-      name: 'Fresh Milk',
-      adulterants: ['Synthetic Milk', 'Detergent', 'Urea', 'Water'],
-      icon: '🥛',
+      id: 'Turmeric',
+      name: 'Turmeric Powder',
+      adulterants: ['Metanil Yellow', 'Lead Chromate', 'Chalk Powder'],
+      icon: '🟡',
+    },
+    {
+      id: 'Chili',
+      name: 'Chili Powder',
+      adulterants: ['Brick Powder', 'Rhodamine B', 'Sawdust'],
+      icon: '🌶️',
     },
   ];
 
   const handleContinue = () => {
-    router.push(`/test/guided/${selectedFood}`);
+    router.push(`/test/guided/${encodeURIComponent(selectedFood)}`);
   };
 
   return (
@@ -55,7 +61,7 @@ export default function TestableScanPage() {
               Test Raw Food for Adulteration
             </h1>
             <p className="text-sm text-slate-600 max-w-2xl">
-              Select the raw staple product you wish to test. We provide a step-by-step guided chemical reaction protocol to verify purity.
+              Select the food category you wish to test. We provide a step-by-step guided chemical reaction protocol to verify purity.
             </p>
           </div>
 
@@ -64,7 +70,7 @@ export default function TestableScanPage() {
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
               Select Food Category
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {testableItems.map((item) => {
                 const isSelected = selectedFood === item.id;
                 return (
@@ -88,7 +94,7 @@ export default function TestableScanPage() {
                     <div>
                       <h3 className="text-base font-bold text-slate-900">{item.name}</h3>
                       <p className="text-xs text-slate-500 mt-1">
-                        Common targets: {item.adulterants.join(', ')}
+                        Targets: {item.adulterants.join(', ')}
                       </p>
                     </div>
                   </div>
@@ -113,7 +119,7 @@ export default function TestableScanPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200 pt-6">
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <ShieldAlert className="h-4 w-4 text-emerald-600" />
-              <span>Next step will show required test tubes and reaction steps.</span>
+              <span>Next step will show required test steps and allow submitting test observations.</span>
             </div>
 
             <button

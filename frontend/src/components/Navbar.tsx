@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { ShieldCheck, ScanLine, FlaskConical, LayoutDashboard, UserCheck, Menu, X } from 'lucide-react';
+import { ShieldCheck, ScanLine, FlaskConical, LayoutDashboard, UserCheck, Menu, X, LogOut, User as UserIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <nav className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
@@ -47,19 +49,40 @@ export function Navbar() {
 
           {/* Auth Actions */}
           <div className="hidden md:flex md:items-center md:gap-3">
-            <Link
-              href="/login"
-              className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-emerald-600 transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/register"
-              className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition-all hover:shadow-emerald-600/20"
-            >
-              <UserCheck className="h-4 w-4" />
-              Get Started
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 border border-slate-200">
+                  <UserIcon className="h-4 w-4 text-emerald-600" />
+                  <span className="text-xs font-bold text-slate-800">{user.fullName}</span>
+                  <span className="rounded bg-emerald-100 text-emerald-800 px-1.5 py-0.5 text-[10px] font-extrabold">
+                    {user.role}
+                  </span>
+                </div>
+                <button
+                  onClick={logout}
+                  className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 rounded-lg hover:bg-rose-100 transition-all"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-emerald-600 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition-all hover:shadow-emerald-600/20"
+                >
+                  <UserCheck className="h-4 w-4" />
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -109,20 +132,34 @@ export function Navbar() {
             Dashboard
           </Link>
           <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-            <Link
-              href="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-center rounded-md border border-slate-300 px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/register"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-center rounded-md bg-emerald-600 px-3 py-2 text-base font-medium text-white hover:bg-emerald-700"
-            >
-              Register
-            </Link>
+            {user ? (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  logout();
+                }}
+                className="text-center rounded-md bg-rose-50 text-rose-600 px-3 py-2 text-base font-medium hover:bg-rose-100"
+              >
+                Logout ({user.fullName})
+              </button>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-center rounded-md border border-slate-300 px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-center rounded-md bg-emerald-600 px-3 py-2 text-base font-medium text-white hover:bg-emerald-700"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
