@@ -15,3 +15,9 @@ Thumbs.db
 .env
 .env.local
 *.log
+
+# Local AI agent configuration
+.latentcode
+.opencodeLocal AI agent configuration
+.latentcode
+.opencode
