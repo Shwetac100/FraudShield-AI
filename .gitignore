@@ -1,0 +1,17 @@
+# Target / Build directories
+**/target/
+**/.next/
+**/out/
+**/node_modules/
+
+# IDE & OS files
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Environment & local settings
+.env
+.env.local
+*.log
