@@ -8,19 +8,24 @@ import com.fraudshield.scan.ScanService;
 import com.fraudshield.scan.dto.ScanResponse;
 import com.fraudshield.scoring.RiskLevel;
 import com.fraudshield.user.dto.VendorDashboardSummary;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class VendorDashboardService {
 
     private final UserRepository userRepository;
     private final VendorProfileRepository vendorProfileRepository;
     private final ScanRepository scanRepository;
     private final ScanService scanService;
+
+    public VendorDashboardService(UserRepository userRepository, VendorProfileRepository vendorProfileRepository, ScanRepository scanRepository, ScanService scanService) {
+        this.userRepository = userRepository;
+        this.vendorProfileRepository = vendorProfileRepository;
+        this.scanRepository = scanRepository;
+        this.scanService = scanService;
+    }
 
     public VendorDashboardSummary getVendorDashboardSummary(String userEmail) {
         User user = userRepository.findByEmail(userEmail)

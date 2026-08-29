@@ -4,7 +4,6 @@ import com.fraudshield.common.dto.ApiResponse;
 import com.fraudshield.scan.dto.CreateScanRequest;
 import com.fraudshield.scan.dto.ScanResponse;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,10 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/scans")
-@RequiredArgsConstructor
 public class ScanController {
 
     private final ScanService scanService;
+
+    public ScanController(ScanService scanService) {
+        this.scanService = scanService;
+    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<ScanResponse>> createScan(
