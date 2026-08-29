@@ -4,21 +4,40 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
+import { useAuth } from '@/context/AuthContext';
 import { UserRole } from '@/types';
-import { User, Store, ShieldCheck, Mail, Lock, Building, ArrowRight } from 'lucide-react';
+import { User, Store, ShieldCheck, Mail, Lock, Building, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { register } = useAuth();
   const [role, setRole] = useState<UserRole>('CONSUMER');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [businessName, setBusinessName] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder registration action
-    router.push('/dashboard');
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      await register({
+        email,
+        password,
+        fullName,
+        role: role as 'CONSUMER' | 'VENDOR',
+        businessName: role === 'VENDOR' ? businessName : undefined,
+      });
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err?.message || 'Registration failed');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -35,6 +54,13 @@ export default function RegisterPage() {
             <h2 className="text-2xl font-black text-slate-900">Create FraudShield Account</h2>
             <p className="text-xs text-slate-500">Select your account type to get personalized food safety insights</p>
           </div>
+
+          {error && (
+            <div className="flex items-center gap-2 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
 
           {/* User Type Selection */}
           <div className="space-y-2">
@@ -141,7 +167,7 @@ export default function RegisterPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Minimum 8 characters"
+                  placeholder="Minimum 6 characters"
                   className="w-full rounded-xl border border-slate-300 pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                 />
               </div>
@@ -149,9 +175,10 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 text-sm font-bold text-white shadow-md hover:bg-emerald-700 transition-all hover:shadow-emerald-600/20"
+              disabled={isSubmitting}
+              className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 text-sm font-bold text-white shadow-md hover:bg-emerald-700 transition-all hover:shadow-emerald-600/20 disabled:opacity-50"
             >
-              Complete Registration
+              {isSubmitting ? 'Registering...' : 'Complete Registration'}
               <ArrowRight className="h-4 w-4" />
             </button>
           </form>

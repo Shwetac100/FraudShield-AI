@@ -3,16 +3,19 @@ package com.fraudshield.user;
 import com.fraudshield.exception.ResourceNotFoundException;
 import com.fraudshield.user.dto.UpdateVendorProfileRequest;
 import com.fraudshield.user.dto.UserProfileResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final VendorProfileRepository vendorProfileRepository;
+
+    public UserService(UserRepository userRepository, VendorProfileRepository vendorProfileRepository) {
+        this.userRepository = userRepository;
+        this.vendorProfileRepository = vendorProfileRepository;
+    }
 
     public UserProfileResponse getCurrentUserProfile(String email) {
         User user = userRepository.findByEmail(email)

@@ -1,7 +1,7 @@
-export type UserRole = 'CONSUMER' | 'VENDOR';
+export type UserRole = 'CONSUMER' | 'VENDOR' | 'ADMIN';
 
 export interface User {
-  id: string;
+  id: string | number;
   email: string;
   fullName: string;
   role: UserRole;
@@ -10,6 +10,95 @@ export interface User {
 
 export type ScanType = 'PACKAGED' | 'ADULTERATION';
 export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+
+export interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+  timestamp?: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  id: number;
+  email: string;
+  fullName: string;
+  role: UserRole;
+}
+
+export interface VendorProfileDto {
+  id: number;
+  businessName?: string;
+  businessAddress?: string;
+  businessLicenseNumber?: string;
+  qualityRating?: number;
+  totalScans?: number;
+  passedScans?: number;
+}
+
+export interface UserProfileResponse {
+  id: number;
+  email: string;
+  fullName: string;
+  role: UserRole;
+  createdAt: string;
+  vendorProfile?: VendorProfileDto;
+}
+
+export interface PackagedScanDetailsDto {
+  rawText?: string;
+  ingredientsText?: string;
+  nutritionalInfo?: string;
+  detectedENumbers?: string;
+  detectedHarmfulAdditives?: string;
+}
+
+export interface AdulterationScanDetailsDto {
+  foodCategory?: string;
+  testType?: string;
+  userObservations?: string;
+  suspectedAdulterant?: string;
+  testPositive?: boolean;
+}
+
+export interface ScanResponse {
+  id: number;
+  userId: number;
+  scanType: ScanType;
+  productName: string;
+  riskLevel: RiskLevel;
+  riskExplanation: string;
+  summaryResult: string;
+  imageUrl?: string;
+  createdAt: string;
+  packagedDetails?: PackagedScanDetailsDto;
+  adulterationDetails?: AdulterationScanDetailsDto;
+}
+
+export interface KnowledgeResponse {
+  id: number;
+  name: string;
+  foodCategory: string;
+  description: string;
+  commonAdulterants: string;
+  homeTestMethod: string;
+  healthImpacts: string;
+  defaultSeverity: RiskLevel;
+  regulatoryLimits: string;
+  createdAt: string;
+}
+
+export interface VendorDashboardSummary {
+  businessName?: string;
+  businessAddress?: string;
+  businessLicenseNumber?: string;
+  qualityRating?: number;
+  totalScans?: number;
+  passedScans?: number;
+  flaggedScans?: number;
+  compliancePercentage?: number;
+  recentScans: ScanResponse[];
+}
 
 export interface ScanHistoryItem {
   id: string;
@@ -29,7 +118,7 @@ export interface PackagedReportData {
   brand: string;
   category: string;
   scanDate: string;
-  qualityScore: number; // 0 - 100
+  qualityScore: number;
   verdict: 'Healthy Choice' | 'Moderate Quality' | 'Poor Choice / Unhealthy';
   frontImage?: string;
   backImage?: string;
@@ -91,7 +180,7 @@ export interface AdulterationReportData {
   category: string;
   testDate: string;
   riskLevel: RiskLevel;
-  confidenceScore: number; // 0 - 100 %
+  confidenceScore: number;
   detectedAdulterants: string[];
   aiObservations: {
     visualMarker: string;

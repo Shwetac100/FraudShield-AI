@@ -4,17 +4,30 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
-import { ShieldCheck, Lock, Mail, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder login action
-    router.push('/dashboard');
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      await login(email, password);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err?.message || 'Invalid credentials or connection error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -31,6 +44,13 @@ export default function LoginPage() {
             <h2 className="text-2xl font-black text-slate-900">Welcome Back</h2>
             <p className="text-xs text-slate-500">Sign in to access your FraudShield AI dashboard</p>
           </div>
+
+          {error && (
+            <div className="flex items-center gap-2 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -58,9 +78,6 @@ export default function LoginPage() {
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                   Password
                 </label>
-                <a href="#" className="text-xs font-semibold text-emerald-600 hover:text-emerald-700">
-                  Forgot?
-                </a>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -79,9 +96,10 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 text-sm font-bold text-white shadow-md hover:bg-emerald-700 transition-all hover:shadow-emerald-600/20"
+              disabled={isSubmitting}
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 text-sm font-bold text-white shadow-md hover:bg-emerald-700 transition-all hover:shadow-emerald-600/20 disabled:opacity-50"
             >
-              Sign In
+              {isSubmitting ? 'Signing In...' : 'Sign In'}
               <ArrowRight className="h-4 w-4" />
             </button>
           </form>

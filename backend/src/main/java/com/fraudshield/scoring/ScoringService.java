@@ -9,24 +9,26 @@ import java.util.regex.Pattern;
 @Service
 public class ScoringService {
 
-    // Known dangerous or restricted E-numbers and chemical additives
-    private static final Map<String, Integer> HIGH_RISK_ADDITIVES = Map.of(
-            "E102", 30, // Tartrazine
-            "E110", 30, // Sunset Yellow
-            "E122", 35, // Azorubine
-            "E123", 45, // Amaranth
-            "E124", 35, // Ponceau 4R
-            "E127", 40, // Erythrosine
-            "E129", 35, // Allura Red
-            "E211", 25, // Sodium Benzoate
-            "E220", 30, // Sulfur Dioxide
-            "E250", 40, // Sodium Nitrite
-            "E251", 35, // Sodium Nitrate
-            "E320", 30, // BHA
-            "E321", 30, // BHT
-            "E951", 25, // Aspartame
-            "E952", 30  // Cyclamate
-    );
+    private static final Map<String, Integer> HIGH_RISK_ADDITIVES;
+    static {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("E102", 30); // Tartrazine
+        map.put("E110", 30); // Sunset Yellow
+        map.put("E122", 35); // Azorubine
+        map.put("E123", 45); // Amaranth
+        map.put("E124", 35); // Ponceau 4R
+        map.put("E127", 40); // Erythrosine
+        map.put("E129", 35); // Allura Red
+        map.put("E211", 25); // Sodium Benzoate
+        map.put("E220", 30); // Sulfur Dioxide
+        map.put("E250", 40); // Sodium Nitrite
+        map.put("E251", 35); // Sodium Nitrate
+        map.put("E320", 30); // BHA
+        map.put("E321", 30); // BHT
+        map.put("E951", 25); // Aspartame
+        map.put("E952", 30); // Cyclamate
+        HIGH_RISK_ADDITIVES = Collections.unmodifiableMap(map);
+    }
 
     private static final Map<String, Integer> ADULTERANT_SEVERITY_SCORES = Map.of(
             "METANIL YELLOW", 50,

@@ -2,7 +2,6 @@ package com.fraudshield.knowledge;
 
 import com.fraudshield.knowledge.dto.KnowledgeResponse;
 import com.fraudshield.scoring.RiskLevel;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +9,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class KnowledgeService implements CommandLineRunner {
 
     private final AdulterationKnowledgeRepository repository;
+
+    public KnowledgeService(AdulterationKnowledgeRepository repository) {
+        this.repository = repository;
+    }
 
     public List<KnowledgeResponse> searchKnowledge(String query, String category) {
         List<AdulterationKnowledge> list = repository.searchKnowledge(query, category);

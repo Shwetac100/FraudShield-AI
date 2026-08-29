@@ -2,7 +2,6 @@ package com.fraudshield.user;
 
 import com.fraudshield.common.dto.ApiResponse;
 import com.fraudshield.user.dto.VendorDashboardSummary;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/vendor")
-@RequiredArgsConstructor
 public class VendorDashboardController {
 
     private final VendorDashboardService vendorDashboardService;
+
+    public VendorDashboardController(VendorDashboardService vendorDashboardService) {
+        this.vendorDashboardService = vendorDashboardService;
+    }
 
     @GetMapping("/dashboard")
     @PreAuthorize("hasRole('VENDOR')")

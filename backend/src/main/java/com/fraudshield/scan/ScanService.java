@@ -14,7 +14,6 @@ import com.fraudshield.user.User;
 import com.fraudshield.user.UserRepository;
 import com.fraudshield.user.VendorProfile;
 import com.fraudshield.user.VendorProfileRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class ScanService {
 
     private final ScanRepository scanRepository;
@@ -31,6 +29,14 @@ public class ScanService {
     private final VendorProfileRepository vendorProfileRepository;
     private final AiOcrService aiOcrService;
     private final ScoringService scoringService;
+
+    public ScanService(ScanRepository scanRepository, UserRepository userRepository, VendorProfileRepository vendorProfileRepository, AiOcrService aiOcrService, ScoringService scoringService) {
+        this.scanRepository = scanRepository;
+        this.userRepository = userRepository;
+        this.vendorProfileRepository = vendorProfileRepository;
+        this.aiOcrService = aiOcrService;
+        this.scoringService = scoringService;
+    }
 
     @Transactional
     public ScanResponse createScan(String userEmail, CreateScanRequest request) {
