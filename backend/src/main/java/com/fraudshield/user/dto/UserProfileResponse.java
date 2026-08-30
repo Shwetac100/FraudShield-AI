@@ -1,6 +1,7 @@
 package com.fraudshield.user.dto;
 
 import com.fraudshield.user.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,12 +10,25 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Schema(description = "User profile response data")
 public class UserProfileResponse {
+
+    @Schema(description = "User ID")
     private Long id;
+
+    @Schema(description = "User email address")
     private String email;
+
+    @Schema(description = "User full name")
     private String fullName;
+
+    @Schema(description = "User role")
     private Role role;
+
+    @Schema(description = "Account registration timestamp")
     private LocalDateTime createdAt;
+
+    @Schema(description = "Vendor profile details if role is VENDOR")
     private VendorProfileDto vendorProfile;
 
     public UserProfileResponse() {

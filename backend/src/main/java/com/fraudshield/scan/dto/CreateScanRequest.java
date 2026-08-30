@@ -1,6 +1,7 @@
 package com.fraudshield.scan.dto;
 
 import com.fraudshield.scan.ScanType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,21 +9,34 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "Request object for creating a new scan")
 public class CreateScanRequest {
 
     @NotNull(message = "Scan type is required")
+    @Schema(description = "Type of scan (PACKAGED or ADULTERATION)", example = "PACKAGED")
     private ScanType scanType;
 
+    @Schema(description = "Name of product being scanned", example = "Organic Whole Milk")
     private String productName;
+
+    @Schema(description = "URL of scanned product or ingredient label image")
     private String imageUrl;
 
     // For PACKAGED scan type
+    @Schema(description = "Raw ingredients text extracted or entered for PACKAGED scan", example = "Milk, Vitamin D3, E211")
     private String rawIngredientsText;
 
     // For ADULTERATION scan type
+    @Schema(description = "Food category for ADULTERATION scan", example = "Dairy")
     private String foodCategory;
+
+    @Schema(description = "Testing method used for adulteration detection", example = "Water Dilution Test")
     private String testType;
+
+    @Schema(description = "User observations during home test", example = "Milk separated immediately with blue tincture drop")
     private String userObservations;
+
+    @Schema(description = "Whether adulteration test produced positive result", example = "true")
     private Boolean testPositive;
 
     public CreateScanRequest() {

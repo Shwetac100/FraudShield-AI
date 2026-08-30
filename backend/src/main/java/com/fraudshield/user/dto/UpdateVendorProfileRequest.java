@@ -1,5 +1,6 @@
 package com.fraudshield.user.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,10 +8,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "Request object for updating vendor profile")
 public class UpdateVendorProfileRequest {
+
     @NotBlank(message = "Business name cannot be blank")
+    @Schema(description = "Updated vendor business name", example = "Fresh Foods Ltd")
     private String businessName;
+
+    @Schema(description = "Updated business address", example = "456 Market St, City")
     private String businessAddress;
+
+    @Schema(description = "Updated business license number", example = "LIC-11223344")
     private String businessLicenseNumber;
 
     public UpdateVendorProfileRequest() {

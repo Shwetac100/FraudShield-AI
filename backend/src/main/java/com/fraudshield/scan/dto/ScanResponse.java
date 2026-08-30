@@ -2,6 +2,7 @@ package com.fraudshield.scan.dto;
 
 import com.fraudshield.scan.ScanType;
 import com.fraudshield.scoring.RiskLevel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,19 +11,40 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Schema(description = "Response details for a food scan")
 public class ScanResponse {
 
+    @Schema(description = "Scan ID")
     private Long id;
+
+    @Schema(description = "ID of user who performed scan")
     private Long userId;
+
+    @Schema(description = "Type of scan")
     private ScanType scanType;
+
+    @Schema(description = "Product name")
     private String productName;
+
+    @Schema(description = "Assessed risk level")
     private RiskLevel riskLevel;
+
+    @Schema(description = "Detailed risk explanation")
     private String riskExplanation;
+
+    @Schema(description = "Summary result string")
     private String summaryResult;
+
+    @Schema(description = "Image URL associated with scan")
     private String imageUrl;
+
+    @Schema(description = "Timestamp when scan was performed")
     private LocalDateTime createdAt;
 
+    @Schema(description = "Details specific to packaged scan")
     private PackagedScanDetailsDto packagedDetails;
+
+    @Schema(description = "Details specific to adulteration scan")
     private AdulterationScanDetailsDto adulterationDetails;
 
     public ScanResponse() {

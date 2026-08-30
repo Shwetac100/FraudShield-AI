@@ -1,5 +1,6 @@
 package com.fraudshield.common.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,12 +9,20 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Schema(description = "Generic API response wrapper")
 public class ApiResponse<T> {
 
+    @Schema(description = "Indicates if request was successful", example = "true")
     private boolean success;
+
+    @Schema(description = "Response message or status details", example = "Operation completed successfully")
     private String message;
+
+    @Schema(description = "Payload response data")
     private T data;
+
     @Builder.Default
+    @Schema(description = "Response timestamp")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     public ApiResponse() {

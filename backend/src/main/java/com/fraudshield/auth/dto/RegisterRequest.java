@@ -1,6 +1,7 @@
 package com.fraudshield.auth.dto;
 
 import com.fraudshield.user.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,25 +12,35 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "Request object for user registration")
 public class RegisterRequest {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
+    @Schema(description = "User email address", example = "vendor@example.com")
     private String email;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters long")
+    @Schema(description = "Account password (min 6 characters)", example = "Password123!")
     private String password;
 
     @NotBlank(message = "Full name is required")
+    @Schema(description = "Full name of the user", example = "John Doe")
     private String fullName;
 
     @NotNull(message = "Role is required")
+    @Schema(description = "Role assigned to the user", example = "VENDOR")
     private Role role;
 
     // Optional vendor business details if role == VENDOR
+    @Schema(description = "Business name (required if role is VENDOR)", example = "Fresh Foods Inc")
     private String businessName;
+
+    @Schema(description = "Business physical address", example = "123 Market St, City")
     private String businessAddress;
+
+    @Schema(description = "Business license or registration number", example = "LIC-98765432")
     private String businessLicenseNumber;
 
     public RegisterRequest() {

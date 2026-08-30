@@ -1,6 +1,7 @@
 package com.fraudshield.knowledge.dto;
 
 import com.fraudshield.scoring.RiskLevel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,16 +10,37 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Schema(description = "Adulteration knowledge base entry")
 public class KnowledgeResponse {
+
+    @Schema(description = "Entry ID")
     private Long id;
+
+    @Schema(description = "Food or test item name")
     private String name;
+
+    @Schema(description = "Food category")
     private String foodCategory;
+
+    @Schema(description = "Detailed description")
     private String description;
+
+    @Schema(description = "Common adulterants for this food item")
     private String commonAdulterants;
+
+    @Schema(description = "Recommended home testing method")
     private String homeTestMethod;
+
+    @Schema(description = "Health impacts of adulterants")
     private String healthImpacts;
+
+    @Schema(description = "Default severity level")
     private RiskLevel defaultSeverity;
+
+    @Schema(description = "Regulatory limits or guidelines")
     private String regulatoryLimits;
+
+    @Schema(description = "Record creation timestamp")
     private LocalDateTime createdAt;
 
     public KnowledgeResponse() {

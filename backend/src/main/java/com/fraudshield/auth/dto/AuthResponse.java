@@ -1,17 +1,29 @@
 package com.fraudshield.auth.dto;
 
 import com.fraudshield.user.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "Response object returned after authentication")
 public class AuthResponse {
+
+    @Schema(description = "JWT Bearer access token")
     private String token;
+
+    @Schema(description = "User unique ID")
     private Long id;
+
+    @Schema(description = "User email address")
     private String email;
+
+    @Schema(description = "User full name")
     private String fullName;
+
+    @Schema(description = "Assigned user role")
     private Role role;
 
     public AuthResponse() {

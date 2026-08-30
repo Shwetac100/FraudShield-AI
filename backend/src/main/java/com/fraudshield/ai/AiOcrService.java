@@ -35,11 +35,12 @@ public class AiOcrService {
     }
 
     private AiAnalysisResult callGeminiApi(String imageUrl, String inputRawText) throws Exception {
-        String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey;
+        String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("x-goog-api-key", geminiApiKey);
 
         String prompt = "You are an expert food safety inspector AI. Extract structured information from this input text or image.\n" +
                 "Text input: " + (inputRawText != null ? inputRawText : "Image URL: " + imageUrl) + "\n\n" +

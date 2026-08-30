@@ -1,6 +1,7 @@
 package com.fraudshield.user.dto;
 
 import com.fraudshield.scan.dto.ScanResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,16 +10,34 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Schema(description = "Vendor dashboard summary statistics and recent history")
 public class VendorDashboardSummary {
 
+    @Schema(description = "Business name")
     private String businessName;
+
+    @Schema(description = "Business address")
     private String businessAddress;
+
+    @Schema(description = "Business license number")
     private String businessLicenseNumber;
+
+    @Schema(description = "Vendor quality score rating")
     private Double qualityRating;
+
+    @Schema(description = "Total scans associated with vendor")
     private Integer totalScans;
+
+    @Schema(description = "Number of passed/safe scans")
     private Integer passedScans;
+
+    @Schema(description = "Number of flagged/high risk scans")
     private Integer flaggedScans;
+
+    @Schema(description = "Compliance percentage (passed/total * 100)")
     private Double compliancePercentage;
+
+    @Schema(description = "List of recent scan results")
     private List<ScanResponse> recentScans;
 
     public VendorDashboardSummary() {
